@@ -1,10 +1,14 @@
 import cv2
 import numpy as np
+from PIL import Image, ImageDraw
 
-img = cv2.imread('Z:/test/1normal005_jpg.rf.4d3d05c22e63dd0b9a7a81b78bb1a4ab.jpg')
+
+img = cv2.imread('Z:/dataset/test/1normal010_jpg.rf.b149932998b4e3d397f7eec3b78817b8.jpg')
 print(img.shape, img.dtype)
 
-with open ("Z:/test/1normal005_jpg.rf.4d3d05c22e63dd0b9a7a81b78bb1a4ab.txt", "r") as f:
+txt = ''
+
+with open ("Z:/dataset/test/1normal010_jpg.rf.b149932998b4e3d397f7eec3b78817b8.txt", "r") as f:
     while True:
         line = f.readline()
         list = line.split()
@@ -12,33 +16,46 @@ with open ("Z:/test/1normal005_jpg.rf.4d3d05c22e63dd0b9a7a81b78bb1a4ab.txt", "r"
             break
 
         if list[0] == '1':
-            print(list)
-            a = float(list[1])
-            b = float(list[2])
+            a = float(list[1]) # bbox 중심 x 좌표
+            b = float(list[2]) # bbox 중심 y 좌표
             c = float(list[3])
             d = float(list[4])
-            a = int(a*512)
-            b = int(b*512)
-            c = int(c*512 /2)
-            d = int(d*512 /2)
-            print(a,b,c,d)
-            output = np.zeros((d*2 ,c*2  ,3), np.uint8)
+            a = int(a * 512)
+            b = int(b * 512)
+            c = int(c * 512 / 2) # bbox width 절반
+            d = int(d * 512 / 2) # bbox height 절반
+            output = np.zeros((d * 2, c * 2, 3), np.uint8)
             for y in range(output.shape[1]):
                 for x in range(output.shape[0]):
-                    xp, yp = x + b-d , y+a-c
+                    xp, yp = x + b - d, y + a - c
                     output[x, y] = img[xp, yp]
             txt = ''
 
-        if list[0] == '2':
-            txt = txt + 'N'
+        elif list[0] == '2':
+            alpha = float(list[1])
+            if alpha < 0.5:
+                txt = txt + 'Rnor'
+            elif alpha > 0.5:
+                txt = txt + 'Lnor'
 
-        if list[0] == '3':
-            txt = txt + 'R'
+        elif list[0] == '3':
+            alpha = float(list[1])
+            if alpha < 0.5:
+                txt = txt + 'Rrhi'
+            elif alpha > 0.5:
+                txt = txt + 'Lrhi'
 
-        if list[0] == '0':
-            txt = txt + 'C'
+        elif list[0] == '0':
+            alpha = float(list[1])
+            if alpha < 0.5:
+                txt = txt + 'Rcys'
+            elif alpha > 0.5:
+                txt = txt + 'Lcys'
 
-    cv2.imwrite('cropped_' + str(txt) + '.jpg', output)
+    cv2.imwrite('Z:/dataset/test/_cropped_' + str(txt) + '.jpg', output)
 
-
-
+# im = img.convert('RGB')
+# draw = ImageDraw.Draw(im)
+# draw.rectangle((a,b,c,d), outline=(0,255,0), width = 5)
+draw = cv2.rectangle(img, (a+c,b+d),(a-c,b-d), (255,0,0))
+cv2.imwrite('Z:/dataset/test/rgb_' + str(txt) + '.jpg', draw)
