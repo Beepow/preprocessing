@@ -52,7 +52,6 @@ if Train:
     stack = []
     for number in range(1, 21):
         NAME = f'{state}_{number}'
-        # data, header = nrrd.read(f'C:/Users/Public/Pycharm/preprocessing/ASOCAData/{state}/Annotations/{NAME}.nrrd')
         data, CTCA_header = nrrd.read(f'C:/Users/Public/Pycharm/preprocessing/ASOCAData/{state}/{data_type}/{NAME}.nrrd')
 
         with open(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/centerlines_main_3/centerlines_main_3_{NAME}.pkl", "rb") as f:

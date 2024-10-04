@@ -49,22 +49,22 @@ ax.set_zlabel('D')
 plt.show()
 
 
-output = f"C:/Users/최재원/Desktop/ASOCADataAccess/array_rep/{NAME}"
-if not os.path.exists(output):
-    os.makedirs(output)
-
-scaler = PP.MinMaxScaler()
-data = (data*255).astype(np.uint8)
-for k in range(data.shape[0]):
-    # annodata = data[k, :, :]
-    # ctdata = (CTCA_data[k, :, :]).astype(np.uint8)
-    ctdata = data[k, :, :]
-
-    normalized_image = np.clip(ctdata, -300, 400)
-
-    plt.imshow(normalized_image[:, :], cmap='gray')
-    plt.colorbar()
-    plt.show()
-    # cv2.imwrite(f"./rep/{k+1}.png", normalized_image)
+# output = f"C:/Users/최재원/Desktop/ASOCADataAccess/array_rep/{NAME}"
+# if not os.path.exists(output):
+#     os.makedirs(output)
+#
+# scaler = PP.MinMaxScaler()
+# data = (data*255).astype(np.uint8)
+# for k in range(data.shape[0]):
+#     # annodata = data[k, :, :]
+#     # ctdata = (CTCA_data[k, :, :]).astype(np.uint8)
+#     ctdata = data[k, :, :]
+#
+#     normalized_image = np.clip(ctdata, -300, 400)
+#
+#     plt.imshow(normalized_image[:, :], cmap='gray')
+#     plt.colorbar()
+#     plt.show()
+#     # cv2.imwrite(f"./rep/{k+1}.png", normalized_image)
 
 
