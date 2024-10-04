@@ -6,7 +6,6 @@ import os
 import cv2
 import matplotlib.pyplot as plt
 import sklearn.preprocessing as PrePro
-from scipy.ndimage import gaussian_filter1d
 
 def clamp_rotation(prev_n, current_n, max_angle=np.pi / 6):
     angle = np.arccos(np.clip(np.dot(prev_n, current_n), -1.0, 1.0))
@@ -20,26 +19,22 @@ def clamp_rotation(prev_n, current_n, max_angle=np.pi / 6):
 
 
 def extract_plane(image_volume, t0, t1, size=12, resolution=16):
-    # p1과 p2 사이의 벡터 계산
     n = np.array(t1) - np.array(t0)
-    n = n / np.linalg.norm(n)  # 단위 벡터로 변환
+    n = n / np.linalg.norm(n)
 
-    # n에 수직인 두 벡터 찾기 (임의의 벡터를 사용하여 외적 계산)
     u = np.cross(n, np.array([1, 0, 0]))
-    if np.linalg.norm(u) == 0:  # 만약 n이 [1,0,0]과 평행한 경우
+    if np.linalg.norm(u) == 0:
         u = np.cross(n, np.array([0, 1, 0]))
     u = u / np.linalg.norm(u)
 
     v = np.cross(n, u)
     v = v / np.linalg.norm(v)
 
-    # 혈관 단면 이미지 추출
     grid_x, grid_y = np.meshgrid(np.linspace(-size, size, resolution), np.linspace(-size, size, resolution))
     gx = grid_x[:,:,np.newaxis] * u
     gy = grid_y[:,:,np.newaxis] * v
     plane_points = t0 + gx + gy
 
-    # 3D 볼륨에서 해당 포인트들의 값을 보간하여 추출
     plane_image = map_coordinates(image_volume, plane_points.transpose(2, 0, 1), order=1, mode='nearest')
     return plane_image
 
@@ -48,6 +43,9 @@ prev_n = None
 Train = 0
 CT = 1
 data_type = 'CTCA' if CT else 'Annotation'
+slice_size = 64
+overlap = 16
+start = 0
 
 if Train:
     state = 'Normal'
@@ -143,10 +141,8 @@ if Train:
         #         axes[j].set_title(f'Slice {j}')
         #     plt.savefig(f"C:/Users/Public/Pycharm/preprocessing/plane/Test/{NAME}_{i}.png")
         #     plt.show()
+
         stack_l = []
-        slice_size = 64
-        overlap = 16
-        start = 0
         while start + slice_size <= len(stack_array):
             stack_l.append(stack_array[start:start + slice_size])
             start += (slice_size - overlap)
@@ -171,12 +167,11 @@ else:
                       "rb") as f:
                 groups = pickle.load(f)
 
-            stack = []  # Test용 만들때
+            stack = []
             # stack_array = []  # 각 사람별로 저장할때 사용
 
             normalized_image = np.clip(data, -300, 400)
 
-            stack_l = []
             t = []
             for i in range(len(groups)):
                 if state == 'Normal':
@@ -195,7 +190,6 @@ else:
                                 n_vec = t1 - t0
                                 n_vec = n_vec / np.linalg.norm(n_vec)
 
-                                # 이전 법선 벡터와 비교하여 회전 각도 제한
                                 if prev_n is not None:
                                     n_vec = clamp_rotation(prev_n, n_vec)
                                 prev_n = n_vec
@@ -217,7 +211,6 @@ else:
                                 n_vec = t1 - t0
                                 n_vec = n_vec / np.linalg.norm(n_vec)
 
-                                # 이전 법선 벡터와 비교하여 회전 각도 제한
                                 if prev_n is not None:
                                     n_vec = clamp_rotation(prev_n, n_vec)
                                 prev_n = n_vec
@@ -240,7 +233,6 @@ else:
                                 n_vec = t1 - t0
                                 n_vec = n_vec / np.linalg.norm(n_vec)
 
-                                # 이전 법선 벡터와 비교하여 회전 각도 제한
                                 if prev_n is not None:
                                     n_vec = clamp_rotation(prev_n, n_vec)
                                 prev_n = n_vec
@@ -264,7 +256,6 @@ else:
                                 n_vec = t1 - t0
                                 n_vec = n_vec / np.linalg.norm(n_vec)
 
-                                # 이전 법선 벡터와 비교하여 회전 각도 제한
                                 if prev_n is not None:
                                     n_vec = clamp_rotation(prev_n, n_vec)
                                 prev_n = n_vec
@@ -286,7 +277,6 @@ else:
                                 n_vec = t1 - t0
                                 n_vec = n_vec / np.linalg.norm(n_vec)
 
-                                # 이전 법선 벡터와 비교하여 회전 각도 제한
                                 if prev_n is not None:
                                     n_vec = clamp_rotation(prev_n, n_vec)
                                 prev_n = n_vec
@@ -308,7 +298,6 @@ else:
                                 n_vec = t1 - t0
                                 n_vec = n_vec / np.linalg.norm(n_vec)
 
-                                # 이전 법선 벡터와 비교하여 회전 각도 제한
                                 if prev_n is not None:
                                     n_vec = clamp_rotation(prev_n, n_vec)
                                 prev_n = n_vec
@@ -326,9 +315,7 @@ else:
             #     plt.savefig(f"C:/Users/Public/Pycharm/preprocessing/plane/Test/{NAME}_{i}.png")
             #     plt.show()
 
-            slice_size = 64
-            overlap = 16
-            start = 0
+            stack_l = []
             while start + slice_size <= len(stack_array):
                 stack_l.append(stack_array[start:start + slice_size])
                 start += (slice_size - overlap)
@@ -342,3 +329,4 @@ else:
                 os.makedirs(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/patch/Train_ves/")
             with open(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/patch/{state[0]}_{number}.pkl", "wb") as f:
                 pickle.dump(stack, f, protocol=pickle.HIGHEST_PROTOCOL)
+
