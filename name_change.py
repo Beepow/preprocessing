@@ -92,14 +92,24 @@ for k in range(0,len(file_names)-1):
     #     dst = os.path.join(file_path, dst)
     #     os.rename(src, dst)
 
-    if file_names[k][0] == 'R':
+    # if file_names[k][0] == 'R':
+    #     fn = file_names[k]
+    #     t = t + 1
+    #     src = os.path.join(file_path, fn)
+    #     dst = fn[0:4] + '_' + str(i) + '.jpg'
+    #     print(dst)
+    #     dst = os.path.join(file_path, dst)
+    #     os.rename(src, dst)
+    #     i +=1
+
+    if file_names[k][-4] == 'R':
         fn = file_names[k]
         t = t + 1
         src = os.path.join(file_path, fn)
-        dst = fn[0:4] + '_' + str(i) + '.jpg'
+        dst = fn[-4:] + '_' + '.jpg'
         print(dst)
         dst = os.path.join(file_path, dst)
         os.rename(src, dst)
-        i +=1
+        i += 1
 print(t)
 d=1

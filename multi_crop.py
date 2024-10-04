@@ -2,17 +2,19 @@ import cv2
 import numpy as np
 import os
 
-img_path = 'Z:/dataset/crop/test/images'
+img_path = 'Z:/dataset/crop/train/images'
 img_names = os.listdir(img_path)
 
-lab_path = 'Z:/dataset/crop/test/labels'
+lab_path = 'Z:/dataset/crop/train/labels'
 lab_names = os.listdir(lab_path)
 k = 0
+i=432
 
 for k in range(0,len(img_names)-1):
     img = cv2.imread(img_path + '/' + img_names[k])
     print(img_names[k])
-    txt = ''
+    Rtxt = ''
+    Ltxt = ''
     with open(lab_path +'/'+ img_names[k][:-4] + '.txt', "r") as f:
         while True:
             line = f.readline()
@@ -34,29 +36,28 @@ for k in range(0,len(img_names)-1):
                     for x in range(output.shape[0]):
                         xp, yp = x + b - d, y + a - c
                         output[x, y] = img[xp, yp]
-                txt = txt
+                # txt = txt
 
             elif list[0] == '2':
                 alpha = float(list[1])
                 if alpha < 0.5:
-                    txt = txt + 'Rnor'
+                    Rtxt = Rtxt + 'Rnor'
                 elif alpha > 0.5:
-                    txt = txt + 'Lnor'
+                    Ltxt = Ltxt + 'Lnor'
 
             elif list[0] == '3':
                 alpha = float(list[1])
                 if alpha < 0.5:
-                    txt = txt + 'Rrhi'
+                    Rtxt = Rtxt + 'Rrhi'
                 elif alpha > 0.5:
-                    txt = txt + 'Lrhi'
+                    Ltxt = Ltxt + 'Lrhi'
 
             elif list[0] == '0':
                 alpha = float(list[1])
                 if alpha < 0.5:
-                    txt = txt + 'Rcys'
+                    Rtxt = Rtxt + 'Rcys'
                 elif alpha > 0.5:
-                    txt = txt + 'Lcys'
+                    Ltxt = Ltxt + 'Lcys'
+        i = i + 1
 
-
-        cv2.imwrite('Z:/dataset/crop/test/tc/' + str(k)
-                    + '_cropped_' + str(txt) + '.jpg', output)
+        cv2.imwrite('Z:/dataset/crop/train/trc/' + str(Rtxt) +str(Ltxt) + '_' + str(i) +  '.jpg', output)

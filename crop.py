@@ -3,8 +3,8 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 
-img = cv2.imread('Z:/dataset/test/1normal010_jpg.rf.b149932998b4e3d397f7eec3b78817b8.jpg')
-print(img.shape, img.dtype)
+img = cv2.imread('http://iulab.synology.me:5005/IULab/Medical/Jaewon/dataset/CT예시/normal.jpg')
+# print(img.shape, img.dtype)
 
 txt = ''
 
