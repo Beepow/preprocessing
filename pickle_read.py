@@ -2,38 +2,8 @@ import pickle
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-from sklearn.cluster import DBSCAN
 
 colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf', '#6f290a', '#87c392', '#48ff71', '#ffff45', '#ff45ff', '#45ffff', '#180483']
-#
-# for state in ['Normal', 'Diseased']:
-#     for number in range(1, 21):
-#         NAME = f'{state}_{number}'
-#
-#         with open(f"./CntF/centerlines_float_{NAME}.pkl", "rb") as f:
-#             groups = pickle.load(f)
-#
-#         fig = plt.figure(figsize=(10, 10))
-#         ax = fig.add_subplot(111, projection='3d')
-#         new_groups = []
-#         for i in range(len(groups)):
-#             g1 = np.array(groups[i])
-#             # if len(g1) < 600:
-#             #     del g1
-#             # else:
-#             ax.scatter(g1[:, 0], g1[:, 1], g1[:, 2], c=colors[i], s=1, label=i)
-#             # new_groups.append(g1 - (cccx -a, cccy -b, cccz -c))
-#             ax.scatter(g1[0, 0], g1[0, 1], g1[0, 2], c='k', s=10)
-#             # ax.legend()
-#         ax.set_ylabel('Y')
-#         ax.set_xlabel('X')
-#         ax.set_zlabel('D')
-#         ax.legend()
-#         plt.savefig(f"./centerlines_fig/{NAME}.png")
-#         print(f"{NAME} Saved")
-#         # plt.show()
-
-
 
 
 #################################################################################
