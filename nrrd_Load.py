@@ -8,11 +8,14 @@ import sklearn.preprocessing as PP
 fig = plt.figure(figsize=(10, 10))
 ax = fig.add_subplot(111, projection='3d')
 
-NAME = 'Normal_4'
+
+state = 'Normal'
+number= '4'
+NAME = f'{state}_{number}'
 CT = 1
 Anno = 1
 if CT:
-    CTCA_data, header = nrrd.read(f'C:/Users/최재원/Desktop/ASOCADataAccess/ASOCADataAccess/CompressedVersion/Normal/CTCA/{NAME}.nrrd')
+    CTCA_data, header = nrrd.read(f'C:/Users/Public/Pycharm/preprocessing/ASOCAData/{state}/CTCA/{NAME}.nrrd')
     data = np.moveaxis(CTCA_data, -1, 0)
     CTCA_coord = []
     for zC, img_data in enumerate(CTCA_data):
@@ -26,7 +29,7 @@ if CT:
     ax.scatter(xC, yC, zC, c='b', alpha=0.2, s=1)
 
 if Anno:
-    data, header = nrrd.read(f'C:/Users/최재원/Desktop/ASOCADataAccess/ASOCADataAccess/CompressedVersion/Normal/Annotations/{NAME}.nrrd')
+    data, header = nrrd.read(f'C:/Users/Public/Pycharm/preprocessing/ASOCAData/{state}/Annotations/{NAME}.nrrd')
     data = np.moveaxis(data, -1, 0)
     data_coord = []
     for zD, img_data in enumerate(data):

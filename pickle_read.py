@@ -24,42 +24,42 @@ def nearest_points(coords_list1, coords_list2):
         closest_pairs.append((point1, closest_point))
     return closest_pairs
 
-state = 'Normal'
-number = '4'
+state = 'Diseased'
+number = '6'
 NAME = f'{state}_{number}'
 fig = plt.figure(figsize=(10, 10))
 ax = fig.add_subplot(111, projection='3d')
-with open(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/centerlines_main_3/centerlines_main_3_{NAME}.pkl", "rb") as f:
+with open(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/whole_sort/{NAME}.pkl", "rb") as f:
     groups = pickle.load(f)
 
 listup = []
 for i in range((len(groups))):
     g1 = np.array(groups[i])
-    # if i == 10:
-    #     g1 = g1[10:-int(len(g1)/1.7)]
-    #     # g1 = np.concatenate((g1[80:410],g1[75:0:-1],g1[410:-int(len(g1)/1.7)]), axis=0)
+    # if i == 0:
+    #     g1 = g1[30:]
+    #     # g1 = np.concatenate((g1[10:350],g1[450:]), axis=0)
     #     ax.scatter(g1[:, 0], g1[:, 1], g1[:, 2], c=colors[i], s=1, label=i)
     #     ax.scatter(g1[0, 0], g1[0, 1], g1[0, 2], c='k', s=10)
     #     listup.append(g1)
     # elif i== 1:
-    #     # g1 = g1[-23:-1]
-    #     g1 = np.concatenate((g1[0:70], g1[130:-23], g1[120:70:-1], g1[-23:]), axis=0)
+    #     g1 = g1[20:]
+    #     # g1 = np.concatenate((g1[-320:-90], g1[10:-330]), axis=0)
     #     ax.scatter(g1[:, 0], g1[:, 1], g1[:, 2], c=colors[i], s=1, label=i)
     #     ax.scatter(g1[0, 0], g1[0, 1], g1[0, 2], c='k', s=10)
     #     listup.append(g1)
-    # elif i == 12:
-    #     g1 = g1[10:-int(len(g1)/1.7)]
+    # elif i == 2:
+    #     g1 = g1[20:]
     #     # g1 = np.concatenate((g1[80:170],g1[75:0:-1],g1[170:-int(len(g1)/2)]), axis=0)
     #     ax.scatter(g1[:, 0], g1[:, 1], g1[:, 2], c=colors[i], s=1, label=i)
     #     ax.scatter(g1[0, 0], g1[0, 1], g1[0, 2], c='k', s=10)
     #     listup.append(g1)
-    # elif i == 3:
-    #     g1 = g1[100:-int(len(g1)/1.7)]
+    # elif i == 13:
+    #     g1 = g1[40:-30]
     #     # g1 = np.concatenate((g1[3:200], groups[6][63:230],groups[6][60:1:-1], groups[7][1:]), axis=0)
     #     ax.scatter(g1[:, 0], g1[:, 1], g1[:, 2], c=colors[i], s=1, label=i)
     #     ax.scatter(g1[0, 0], g1[0, 1], g1[0, 2], c='k', s=10)
     #     listup.append(g1)
-    # elif i==10  or i==12 or i==3:
+    # elif i in (111, 112):
     #     g1 = None
     #     pass
     # else:
@@ -75,10 +75,10 @@ print(len(listup))
 ax.set_xlabel('X')
 ax.set_zlabel('D')
 ax.legend()
-plt.savefig(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/centerlines_main_3_fig/{NAME}.png")
+plt.savefig(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/whole_sort_fig/{NAME}.png")
 plt.show()
 print("saved")
 
-with open(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/centerlines_main_3/centerlines_main_3_{NAME}.pkl", "wb") as f:
-    pickle.dump(listup, f, protocol=pickle.HIGHEST_PROTOCOL)
+# with open(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/whole_sort/{NAME}.pkl", "wb") as f:
+#     pickle.dump(listup, f, protocol=pickle.HIGHEST_PROTOCOL)
 print("saved")
