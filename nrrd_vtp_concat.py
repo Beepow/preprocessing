@@ -18,15 +18,15 @@ import os
 # CTCA_data = np.moveaxis(CTCA_data, -1, 0)
 #
 # vtp_file_path = "C:/Users/최재원/Desktop/ASOCADataAccess/ASOCADataAccess/Diseased/Centerlines/Diseased_1.vtp"
-
-
+#
+#
 # coordinate_list_1 = []
 # for z, img_data in enumerate(data):
 #     for y, row in enumerate(img_data):
 #         for x, value in enumerate(row):
 #             if value == 1:
 #                 coordinate_list_1.append((x, y, z))
-
+#
 # vtp_reader = vtk.vtkXMLPolyDataReader()
 # vtp_reader.SetFileName(vtp_file_path)
 # vtp_reader.Update()
@@ -38,8 +38,8 @@ import os
 # points_array = np.zeros((num_points, 3))
 # for i in range(num_points):
 #     points_array[i] = points.GetPoint(i)
-
-
+#
+#
 # x_1 = np.array([coord[1] for coord in coordinate_list_1])
 # y_1 = np.array([coord[0] for coord in coordinate_list_1])
 # z_1 = np.array([coord[2] for coord in coordinate_list_1])
@@ -47,20 +47,20 @@ import os
 # print(np.max(x_1)-np.min(x_1), np.max(y_1)-np.min(y_1), np.max(z_1)-np.min(z_1))
 # print(np.max(x_1), np.max(y_1), np.max(z_1))
 # print(np.min(x_1), np.min(y_1), np.min(z_1))
-
 #
+# #
 # x_2 = np.asarray(points_array[:, 0] * 2.586206897 -230.4137932)
-# # x_2 = points_array[:, 0]
-# # x_2 = np.asarray(points_array[:, 0] * 2.6 - 241.51875, dtype=int)
-#
+# # # x_2 = points_array[:, 0]
+# # # x_2 = np.asarray(points_array[:, 0] * 2.6 - 241.51875, dtype=int)
+# #
 # y_2 = np.asarray(points_array[:, 1] * 2.589473684 -426.0947368)
-# # y_2 = points_array[:, 1]
-# # y_2 = np.asarray(points_array[:, 1] * 2.6 - 436.0202047, dtype=int)
-#
+# # # y_2 = points_array[:, 1]
+# # # y_2 = np.asarray(points_array[:, 1] * 2.6 - 436.0202047, dtype=int)
+# #
 # z_2 = np.asarray(points_array[:, 2]  * 1.590909091 + 295.1363636)
-# # z_2 = points_array[:, 2]
-# # z_2 = np.asarray(points_array[:, 2] * 1.6 + 301.83643, dtype=int)
-
+# # # z_2 = points_array[:, 2]
+# # # z_2 = np.asarray(points_array[:, 2] * 1.6 + 301.83643, dtype=int)
+#
 #
 # print((np.max(x_2)+np.min(x_2))/2, (np.max(y_2)+np.min(y_2))/2, (np.max(z_2)+np.min(z_2))/2)
 # print(np.max(x_2)-np.min(x_2), np.max(y_2)-np.min(y_2), np.max(z_2)-np.min(z_2))
@@ -121,7 +121,9 @@ x_1 = np.array([coord[1] for coord in coordinate_list_1])
 y_1 = np.array([coord[0] for coord in coordinate_list_1])
 z_1 = np.array([coord[2] for coord in coordinate_list_1])
 ax.scatter(z_1,x_1, y_1, c='y', alpha=0.1)
-with open(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/centerlines_main_3/centerlines_main_3_{NAME}.pkl", "rb") as f:
+# with open(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/centerlines_main_3/centerlines_main_3_{NAME}.pkl", "rb") as f:
+#     groups = pickle.load(f)
+with open(f"C:/Users/Public/Pycharm/preprocessing/CntF/centerlines_float_{NAME}.pkl", "rb") as f:
     groups = pickle.load(f)
 
 # all_coords = [coord for sublist in groups for coord in sublist]
@@ -147,10 +149,10 @@ for i in range(len(groups)):
     a = 0
     b = 0
     c = 0
-    g1 = g1 - (-12, 0, 5)
+    g1 = (g1 - (-10, 3, 7))*1.01
     # ax.scatter(g1[:,0] - cccx +a, g1[:,1] - cccy +b, g1[:,2] - cccz +c, c=colors[i], s=1, label=i)
     ax.scatter(g1[:,0], g1[:,1], g1[:,2], c='r', s=1, label=i)
-    listup.append(g1 - (-12, 0, 5))
+    listup.append(g1)
     # ax.scatter(g1[0,0], g1[0,1], g1[0,2], c='k', s=10)
     # listup.append(g1)
 
@@ -160,7 +162,7 @@ ax.set_ylabel('Y')
 ax.set_xlabel('X')
 ax.set_zlabel('D')
 plt.show()
-with open(f"C:/Users/최재원/Desktop/ASOCADataAccess/vessel/centerlines_main_3/centerlines_main_3_{NAME}.pkl", "wb") as f:
+with open(f"C:/Users/Public/Pycharm/preprocessing/centerlines_{NAME}.pkl", "wb") as f:
     pickle.dump(listup, f, protocol=pickle.HIGHEST_PROTOCOL)
 print("saved")
 # with open(f"./centerlines_float.pkl", "wb") as f:

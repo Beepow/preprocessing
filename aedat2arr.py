@@ -124,8 +124,9 @@ for ch in range(len(char)):
             ax.scatter(yp, tp, xp, c='r', s=1)
             ax.scatter(ym, tm, xm, c='b', s=1)
             ax.set_yticks([])
-            plt.savefig(f"{output}/{set_length}us_{cnt}.png")
             plt.show()
+            plt.savefig(f"{output}/{set_length}us_{cnt}.png")
+
 
             cnt += 1
             t1 = time.time()
